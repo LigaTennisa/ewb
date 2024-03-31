@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Личный кабинет</h1>
+<img src="https://kartinki.pics/uploads/posts/2022-12/1670577824_15-kartinkin-net-p-neitralnie-kartinki-vkontakte-15.jpg" width=300px height=300px alt="Avatar">
+<h2>{{ request.user.first_name }} {{ request.user.last_name }}</h2>
+
+<button><a href="/find-partner">Найти партнера</a></button>
+
+<h3>Объявления:</h3>
+{% for partner_offer in partner_offers %}
+    <h4>{{ partner_offer.title }}</h4>
+    <p>{{ partner_offer.description }}</p>
+{% endfor %}
+
+<h3>Посты автора:</h3>
+{% for post in posts %}
+    <h4>{{ post.title }}</h4>
+    <p>{{ post.content }}</p>
+    <p>Автор: {{ post.author }}</p>
+{% endfor %}
+
+{% endblock content %}

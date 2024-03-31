@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Найти партнера</h1>
+<div class="card-container">
+  {% for post in posts %}
+  <div class="card">
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.author.first_name }} {{ post.author.last_name }}</a></p>
+    <p>Корт: {{ post.court }}</p>
+    <p>Дата: {{ post.training_date }}</p>
+    <p>Время: {{ post.training_time }}</p>
+    <p>Пожелания: {{ post.preferences }}</p>
+    <small>Published on {{ post.published_at | date:"M d, Y" }} 
+  {% if request.user.is_authenticated and request.user == post.author %}
+    <p>
+      <a href="{% url 'post-edit' post.id %}">Edit</a>
+      <a href="{% url 'post-delete' post.id %}">Delete</a>
+    </p>
+  </div>
+  {% endif %}
+
+
+  {% if request.user.is_authenticated and request.user != post.author %}
+  <form method="post" action="{% url 'respond_to_post' post.id %}">
+    {% csrf_token %}
+    <button type="submit">Откликнуться</button>
+  </form>
+{% endif %}
+
+
+  {% endfor %}
+</div>
+<a href="{% url 'add_post' %}">Создать форму</a> <!-- Кнопка "плюсик" для добавления публикации -->
+{% endblock content %}
